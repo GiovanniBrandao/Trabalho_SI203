@@ -4,19 +4,53 @@
 
 #define TAM 100
 
-struct reserva
+typedef struct 
 {
     char NomeQuadra[TAM];
     int dia, mes;
-};
+} reserva;
 
-struct reserva *r1 = NULL; // Inicializar como NULL para n dar problemas futuros
+reserva *r1p;
 int numdereserv = 0;       // número de reservas
 
-void reserva(struct reserva **r1, int *a)
+void reservado (int *reservas)
 {
 
-    *r1 = (struct reserva *)realloc(*r1, ((*a + 1) * sizeof(struct reserva))); // aloca mais memória para mais reservas
+char *nomequadra;
+int dia, mes;
+FILE *arquivo;
+
+arquivo = fopen("reservas.txt", "a+");
+
+if(arquivo == NULL)
+{
+    printf("Nao foi possivel abrir o arquivo");
+    exit(1);
+}
+
+nomequadra = malloc(30 * sizeof(char));
+
+    printf("-----------------\n");
+    printf("Digite qual quadra deseja reservar\n");
+    fgets(nomequadra, 30, stdin);
+    printf("-----------------\n");
+    printf("Para quando deseja reservar? (digite dia e mes em numeros com um espaco entre eles)\n");
+    printf("-----------------\n");
+    scanf("%d %d", &dia, &mes);
+    getchar();
+    (*reservas++);
+
+    fprintf(arquivo, "Nome da quadra: %s", nomequadra);
+    fprintf(arquivo, "Dia: %d %d\n", dia, mes);
+
+free(nomequadra);
+}
+
+/*
+void reserva1(struct reserva **r1, int *reservas)
+{
+
+    *r1 = (struct reserva *)realloc(*r1, ((*reservas + 1) * sizeof(struct reserva))); // aloca mais memória para mais reservas
     if (*r1 == NULL)
     {
         printf("Erro ao alocar memoria.\n");
@@ -26,15 +60,15 @@ void reserva(struct reserva **r1, int *a)
     printf("-----------------\n");
     printf("Digite qual quadra deseja reservar\n");
     printf("-----------------\n");
-    fgets((*r1)[*a].NomeQuadra, TAM, stdin);
+    fgets((*r1)[*reservas].NomeQuadra, TAM, stdin);
     printf("-----------------\n");
     printf("Para quando deseja reservar? (digite dia e mes em numeros com um espaco entre eles)\n");
     printf("-----------------\n");
-    scanf("%d %d", &(*r1)[*a].dia, &(*r1)[*a].mes);
+    scanf("%d %d", &(*r1)[*reservas].dia, &(*r1)[*reservas].mes);
     getchar();
-    (*a)++; // incremento no número de reservas feitas
+    (*reservas)++; // incremento no número de reservas feitas
 }
-
+*/
 void excluir()
 {
 }
@@ -43,7 +77,7 @@ void reagendar()
 {
 }
 
-void consultar(struct reserva *r1, int *a)
+void consultar(reserva *r1, int *a)
 {
     char nome[TAM];
     printf("-----------------\n");
@@ -83,7 +117,8 @@ int main()
 
         if (opcao == 1)
         {
-            reserva(&r1, &numdereserv);
+            reservado(&numdereserv);
+            //reserva(&r1p, &numdereserv);
         }
         else if (opcao == 2)
         {
@@ -95,7 +130,7 @@ int main()
         }
         else if (opcao == 4)
         {
-            consultar(r1, &numdereserv);
+            consultar(r1p, &numdereserv);
         }
         else if (opcao == 5)
         {
@@ -115,9 +150,11 @@ int main()
         printf("[3] - Reagendar reserva\n");
         printf("[4] - Consultar reservas\n");
         printf("[5] - Sair do programa\n");
+        printf("-----------------\n");
+
     }
 
-    free(r1);
+    free(r1p);
 
     return 0;
 }
