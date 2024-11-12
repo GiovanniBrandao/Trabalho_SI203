@@ -1,0 +1,8 @@
+Items nescessários: 
+ Estruturas de repetição
+ Funções
+ Ponteiros
+ Alocação dinâmica de memória
+ Modularização
+ Recursividade
+ Leitura e gravação dos dados no disco
