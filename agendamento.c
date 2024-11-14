@@ -38,18 +38,22 @@ int main() {
     
         switch(escolha) {
             case 1:
+                limparTela();
                 criarReserva(&idReserva);
                 pausarTela();
                 break;
             case 2: 
+                limparTela();   
                 excluirReserva();
                 pausarTela();
                 break;
             case 3:
+                limparTela();
                 reagendarReserva();
                 pausarTela();
                 break;
             case 4:
+                limparTela();
                 consultarReserva();
                 pausarTela();
                 break;

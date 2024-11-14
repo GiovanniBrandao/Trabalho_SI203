@@ -1,14 +1,7 @@
 #include "header.h"
 
 void criarReserva(int *idReserva) {
-    limparTela();
-    FILE *arquivo = fopen("reservas.txt", "a+");
     Reserva reserva;
-
-    if (arquivo == NULL) {
-        printf("Nao foi possivel abrir o arquivo\n");
-        exit(EXIT_FAILURE);
-    }
 
     reserva.nomePessoa = malloc(TAM * sizeof(char));
     if(reserva.nomePessoa == NULL) {
@@ -35,9 +28,21 @@ void criarReserva(int *idReserva) {
   
     printf("Reserva realizada com sucesso! Id da reserva: %d", *idReserva);
 
-    fprintf(arquivo, "ID: %d\t Numero da quadra: %d\t Nome do reservante: %s\t CPF: %li\t Data: %02d/%02d\n", *idReserva, reserva.numeroQuadra, reserva.nomePessoa, reserva.cpfPessoa, reserva.data.dia, reserva.data.mes);
-    fclose(arquivo);
+    salvaArquivo(reserva, *idReserva);
     free(reserva.nomePessoa);
+}
+
+void salvaArquivo(Reserva reserva, int id) {
+    FILE *arquivo = fopen("reservas.txt", "a+");
+
+    if (arquivo == NULL) {
+        printf("Nao foi possivel abrir o arquivo\n");
+        exit(EXIT_FAILURE);
+    }
+
+    fprintf(arquivo, "ID: %d\t Numero da quadra: %d\t Nome do reservante: %s\t CPF: %li\t Data: %02d/%02d\n", id, reserva.numeroQuadra, reserva.nomePessoa, reserva.cpfPessoa, reserva.data.dia, reserva.data.mes);
+    fclose(arquivo);
+    free(arquivo);
 }
 
 void excluirReserva() {
@@ -70,6 +75,9 @@ void excluirReserva() {
     fclose(arquivotemp);
     remove("reservas.txt");
     rename("reservasTemp.txt", "reservas.txt");
+
+    free(arquivoprinci);
+    free(arquivotemp);
 }
 
 void reagendarReserva() {
@@ -99,22 +107,27 @@ void reagendarReserva() {
     getchar();
 
     while (fgets(linha, sizeof(linha), arquivoprinci) != NULL) {
-        if (sscanf(linha, "ID: %d\t Numero da quadra: %d\t Nome do reservante: %s\t CPF: %li\t Data: %02d/%02d\n",
-                &idReserva, &reserva.numeroQuadra, reserva.nomePessoa, &reserva.cpfPessoa,
-                &reserva.data.dia, &reserva.data.mes) == 6) {
-
-                if (idReserva == idReserva_reagendar) {
-                    fprintf(arquivotemp, "ID: %d\t Numero da quadra: %d\t Nome do reservante: %s\t CPF: %li\t Data: %02d/%02d\n", idReserva, reserva.numeroQuadra, reserva.nomePessoa, reserva.cpfPessoa, novaData.dia, novaData.mes);
-                }
-        } else {
-            fprintf(arquivotemp, "%s", linha);
-        }
+        if (sscanf(linha, "ID: %d\t Numero da quadra: %d\t Nome do reservante: %s\t CPF: %li\t Data: %02d/%02d\n", 
+            &idReserva, &reserva.numeroQuadra, reserva.nomePessoa, &reserva.cpfPessoa,
+            &reserva.data.dia, &reserva.data.mes) == 6) {
+            
+            if (idReserva == idReserva_reagendar) {
+                fprintf(arquivotemp, "ID: %d\t Numero da quadra: %d\t Nome do reservante: %s\t CPF: %li\t Data: %02d/%02d\n",
+                idReserva, reserva.numeroQuadra, reserva.nomePessoa, reserva.cpfPessoa, novaData.dia, novaData.mes);
+            } else {
+                fprintf(arquivotemp, "%s", linha);
+            }
+        } 
     }
 
     fclose(arquivoprinci);
     fclose(arquivotemp);
     remove("reservas.txt");
     rename("reservasTemp.txt", "reservas.txt");
+    
+    free(arquivoprinci);
+    free(arquivotemp);
+    free(reserva.nomePessoa);
 }
 
 void consultarReserva() {
@@ -146,4 +159,5 @@ void consultarReserva() {
     }
 
     fclose(arquivo);
+    free(arquivo);
 }

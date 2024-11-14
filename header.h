@@ -22,5 +22,5 @@ void criarReserva(int *idReserva);
 void excluirReserva();
 void reagendaReserva();
 void consultaReserva();
-
+void salvaArquivo(Reserva reserva, int id);
 int menu();
