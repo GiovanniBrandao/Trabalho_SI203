@@ -11,16 +11,8 @@ typedef struct {
 typedef struct {
     char *nomePessoa;
     long int cpfPessoa;
-    int numeroQuadra;
+    int numeroQuadra, id;
     Data data;
 } Reserva;
 
-//Assinaturas das funcoes
-void limpaTela();
-void pausarTela();
-void criarReserva(int *idReserva);
-void excluirReserva();
-void reagendaReserva();
-void consultaReserva();
-void salvaArquivo(Reserva reserva, int id);
-int menu();
+int id = 0;
