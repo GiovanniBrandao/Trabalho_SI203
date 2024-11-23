@@ -4,14 +4,15 @@ void menu() {
     limparTela();
     int opcao = 0;
     
-    printf("-----------------------------\n");
-    printf("| Digite o que deseja fazer |\n");
-    printf("| [1] - Reservar quadra     |\n");
-    printf("| [2] - Excluir agendamento |\n");
-    printf("| [3] - Reagendar reserva   |\n");
-    printf("| [4] - Consultar reservas  |\n");
-    printf("| [5] - Sair do programa    |\n");
-    printf("-----------------------------\n");
+    printf("-------------------------------------\n");
+    printf("| Digite o que deseja fazer         |\n");
+    printf("| [1] - Reservar quadra             |\n");
+    printf("| [2] - Excluir agendamento         |\n");
+    printf("| [3] - Reagendar reserva           |\n");
+    printf("| [4] - Consultar reserva           |\n");
+    printf("| [5] - Listar todas as reservas    |\n");
+    printf("| [6] - Sair do programa            |\n");
+    printf("-------------------------------------\n");
 
     scanf("%d", &opcao);
     getchar();
@@ -32,6 +33,9 @@ void menu() {
             consultarReserva();
             break;
         case 5:
+            listarTodasReservas();
+            break;
+        case 6:
             printf("Fechando e saindo do sistema...\n");
             return;
         default:
@@ -41,7 +45,7 @@ void menu() {
 
     pausarTela();
 
-    if (opcao == 5) {
+    if (opcao == 6) {
         return;
     }
 

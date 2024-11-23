@@ -24,7 +24,7 @@ void getId() {
     } else {
         fscanf(arquivo, "%d", &id);
         id++;
-        rewind(arquivo); 
+        rewind(arquivo); // coloca o ponteiro no inicio do arquivo
     }
 
     fprintf(arquivo, "%d", id);
